@@ -25,7 +25,6 @@ def LogicAdd(mg1,mg2,x1,y1,x2,y2):
     img2gray=cv.cvtColor(mg2, cv.COLOR_BGR2GRAY)
     GTong(img2gray)
     ret,mask=cv.threshold(img2gray,20,255,cv.THRESH_BINARY)
-    
     mask_inv=cv.bitwise_not(mask) 
     img1_bg=cv.bitwise_and(roi,roi,mask=mask_inv) 
     img2_fg=cv.bitwise_and(mg2,mg2,mask=mask)
@@ -52,20 +51,14 @@ while True:
    
     faces=0
     for i in range(0,detections.shape[2]): 
-        
         confidence=detections[0,0,i,2]  
-        
         if confidence>0.6:
-        
          faces+=1
          #print(faces)
          box=detections[0,0,i,3:7]*np.array([w,h,w,h]) 
-        
          x1,y1,x2,y2=box.astype("int")
          y=y1-10 if y1-10>10 else y1+10            
-         
          if y1-190<0 or x1-70<0: 
-            
             confidence=0
             continue
          img=LogicAdd(img,mou,x1,y1,x2,y2)
